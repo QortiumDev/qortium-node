@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="683" height="685" viewBox="0 0 683 685">
+  <polygon points="341,30 625,236 517,568 166,568 58,236" fill="#ffffff"/>
+  <g stroke="#000000" stroke-width="14" stroke-linecap="round">
+    <line x1="341" y1="342" x2="341" y2="150"/>
+    <line x1="341" y1="342" x2="522" y2="276"/>
+    <line x1="341" y1="342" x2="458" y2="500"/>
+    <line x1="341" y1="342" x2="224" y2="500"/>
+    <line x1="341" y1="342" x2="160" y2="276"/>
+  </g>
+  <g fill="#ffffff" stroke="#000000" stroke-width="13">
+    <circle cx="341" cy="342" r="34"/>
+    <circle cx="341" cy="150" r="34"/>
+    <circle cx="522" cy="276" r="34"/>
+    <circle cx="458" cy="500" r="34"/>
+    <circle cx="224" cy="500" r="34"/>
+    <circle cx="160" cy="276" r="34"/>
+  </g>
+</svg>
