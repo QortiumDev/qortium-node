@@ -26,6 +26,7 @@ const NUMERIC_EDITABLE_SETTING_CONSTRAINTS = {
   maxDataPeers: { min: 1 },
   minOutboundPeers: { min: 0 },
   minBlockchainPeers: { min: 1 },
+  minDataPeers: { min: 1 },
   maxStorageCapacity: { min: 1 },
   chatMessageRetentionPeriod: { min: 1 },
 } as const;
@@ -43,6 +44,7 @@ export const PHASE_1_EDITABLE_SETTING_KEYS = [
   'maxDataPeers',
   'minOutboundPeers',
   'minBlockchainPeers',
+  'minDataPeers',
   'minPeerVersion',
   'allowConnectionsWithOlderPeerVersions',
   'qdnEnabled',
@@ -71,6 +73,7 @@ type BooleanEditableSettingKey = Exclude<
   | 'listenPort'
   | 'listenDataPort'
   | 'minBlockchainPeers'
+  | 'minDataPeers'
   | 'minOutboundPeers'
   | 'minPeerVersion'
   | 'maxPeers'
