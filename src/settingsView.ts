@@ -49,6 +49,7 @@ const SETTING_ORDER: Record<string, SettingOrder> = {
   maxDataPeers: { group: 1, priority: 31 },
   minOutboundPeers: { group: 1, priority: 40 },
   minBlockchainPeers: { group: 1, priority: 41 },
+  minDataPeers: { group: 1, priority: 42 },
   minPeerConnectionTime: { group: 1, priority: 50 },
   maxPeerConnectionTime: { group: 1, priority: 51 },
   maxDataPeerConnectionTime: { group: 1, priority: 52 },

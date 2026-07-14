@@ -22,6 +22,7 @@ describe('settings editor helpers', () => {
       autoUpdateMode: { restartRequired: true, type: 'AUTO_UPDATE_MODE' },
       listenPort: { restartRequired: true, type: 'INTEGER' },
       minBlockchainPeers: { restartRequired: false, type: 'INTEGER' },
+      minDataPeers: { restartRequired: false, type: 'INTEGER' },
       minPeerVersion: { restartRequired: true, type: 'PEER_VERSION' },
       maxStorageCapacity: { restartRequired: false, type: 'LONG' },
       storagePolicy: { restartRequired: false, type: 'STORAGE_POLICY' },
@@ -42,6 +43,8 @@ describe('settings editor helpers', () => {
     expect(normalizeEditableSettingValue('listenPort', '65536')).toBe(null);
     expect(normalizeEditableSettingValue('minOutboundPeers', '0')).toBe(0);
     expect(normalizeEditableSettingValue('minBlockchainPeers', '3')).toBe(3);
+    expect(normalizeEditableSettingValue('minDataPeers', '4')).toBe(4);
+    expect(normalizeEditableSettingValue('minDataPeers', '0')).toBe(null);
     expect(normalizeEditableSettingValue('minPeerVersion', '1.3.0')).toBe('1.3.0');
     expect(normalizeEditableSettingValue('minPeerVersion', '1.3')).toBe(null);
     expect(normalizeEditableSettingValue('maxStorageCapacity', '1234567890123')).toBe(1234567890123);
@@ -83,6 +86,7 @@ describe('settings editor helpers', () => {
         autoUpdateMode: 'OFF',
         listenPort: 25000,
         minPeerVersion: '1.2.3',
+        minDataPeers: 3,
         maxStorageCapacity: 1_000_000_000,
         chatMessageRetentionPeriod: 86_400_000,
         qdnEnabled: true,
@@ -93,6 +97,7 @@ describe('settings editor helpers', () => {
         autoUpdateMode: 'NOTIFY',
         listenPort: '25001',
         minPeerVersion: '1.3.0',
+        minDataPeers: '4',
         maxStorageCapacity: parseGigabytesToBytes('2'),
         chatMessageRetentionPeriod: parseHoursToMilliseconds('48'),
         qdnEnabled: true,
@@ -107,6 +112,7 @@ describe('settings editor helpers', () => {
       listenPort: 25001,
       maxStorageCapacity: 2000000000,
       minPeerVersion: '1.3.0',
+      minDataPeers: 4,
       storagePolicy: 'NONE',
     });
   });
@@ -117,6 +123,7 @@ describe('settings editor helpers', () => {
     expect(canEditSetting('autoRestartEnabled', metadata, true, false)).toBe(true);
     expect(canEditSetting('listenPort', metadata, true, false)).toBe(true);
     expect(canEditSetting('minBlockchainPeers', metadata, true, false)).toBe(true);
+    expect(canEditSetting('minDataPeers', metadata, true, false)).toBe(true);
     expect(canEditSetting('minPeerVersion', metadata, true, false)).toBe(true);
     expect(canEditSetting('maxStorageCapacity', metadata, true, false)).toBe(true);
     expect(canEditSetting('storagePolicy', metadata, false, false)).toBe(false);

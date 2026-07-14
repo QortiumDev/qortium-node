@@ -13,9 +13,9 @@ Current scope:
 - Show chain vs QDN/data peers, IP vs I2P, inbound vs outbound breakdowns,
   and chain/data peer diagnostics when Core exposes them.
 - Edit the bounded Core settings exposed by Home bridge actions:
-  - `GET_NODE_SETTINGS`
-  - `GET_NODE_SETTINGS_SCHEMA`
+  - `GET_NODE_SETTINGS_METADATA`
   - `UPDATE_NODE_SETTINGS`
+  - `RESTART_NODE`
 - Preserve the original Core settings order when rendering editable settings.
 - Present `maxStorageCapacity` in gigabytes and
   `chatMessageRetentionPeriod` in hours while sending Core its native units.
@@ -42,3 +42,4 @@ Editable settings:
 - Keep `PHASE_1_EDITABLE_SETTING_KEYS` in the same logical order as
   `SETTING_ORDER` in `src/settingsView.ts`. The editable section is a pulled-out
   view of the original full settings order, not an appended allowlist.
+- `minDataPeers` is editable when the active Core reports it as writable.
