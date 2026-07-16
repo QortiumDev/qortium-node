@@ -2,6 +2,10 @@
 
 A QDN app for inspecting and managing the active Qortium Core node.
 
+Settings edits and node restarts require running inside Qortium Home, which
+provides the write bridge actions; in a plain browser the app feature-detects
+the missing `window.qdnRequest` bridge and stays read-only.
+
 Default QDN identity:
 
 - `APP/Node/Node`
@@ -36,6 +40,35 @@ npm run build
 npm test
 npm run dev
 ```
+
+Versioning:
+
+- Node follows the Qortium app versioning standard (QAVS): the current app
+  version is 1.4.1, where the `1.4` prefix declares the minimum Qortium
+  platform level the app is built against and the last number is the app's
+  own release counter.
+- The build emits a `qortium-app.json` manifest (see `vite.config.ts`) that
+  Qortium Home reads from the published root.
+
+Publishing:
+
+```bash
+npm run build
+npm run qdn:publish
+```
+
+- By default the publish helper uploads `dist/` as `qdn://APP/Node/Node`
+  through `http://127.0.0.1:24891`, using the local preview account files
+  under `~/qortium/git/qortium-core/preview/`.
+- The helper uses `QORTIUM_NODE_NODE_API_KEY` or
+  `QORTIUM_NODE_NODE_API_KEY_PATH` when set, then tries the API key for the
+  active local Core process, and finally falls back to
+  `~/.config/qortium-core/runtime/apikey.txt`.
+- Set `QORTIUM_NODE_NODE_API_URL`, `QORTIUM_NODE_QDN_NAME`,
+  `QORTIUM_NODE_QDN_IDENTIFIER`, `QORTIUM_NODE_QDN_TITLE`,
+  `QORTIUM_NODE_QDN_SERVICE`, `QORTIUM_NODE_DIST_PATH`, or
+  `QORTIUM_NODE_PREVIEW_ACCOUNTS_PATH` to publish another QDN resource or use
+  another node.
 
 Editable settings:
 
