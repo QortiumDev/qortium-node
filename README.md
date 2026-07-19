@@ -44,7 +44,7 @@ npm run dev
 Versioning:
 
 - Node follows the Qortium app versioning standard (QAVS): the current app
-  version is 1.4.1, where the `1.4` prefix declares the minimum Qortium
+  version is 1.4.2, where the `1.4` prefix declares the minimum Qortium
   platform level the app is built against and the last number is the app's
   own release counter.
 - The build emits a `qortium-app.json` manifest (see `vite.config.ts`) that
