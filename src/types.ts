@@ -1,3 +1,5 @@
+export type AppPage = 'overview' | 'settings';
+
 export type BridgeState = {
   actions: string[];
   isHomeBridge: boolean;

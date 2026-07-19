@@ -18,6 +18,7 @@ import {
   normalizePeerDiagnostics,
   normalizePeerList,
 } from './nodeData';
+import { getNodeRouteUrl, readNodeRoute } from './nodeRoute';
 import {
   getNextPeerSortRules,
   sortPeerRows,
@@ -47,6 +48,7 @@ import {
 } from './settingsEditor';
 import { buildSettingsGroups, normalizeSettingsMetadata, type SettingsEntry } from './settingsView';
 import type {
+  AppPage,
   BridgeState,
   ConnectedPeer,
   CoreSettings,
@@ -63,8 +65,6 @@ import type {
 } from './types';
 
 const SETTINGS_BRIDGE_ACTIONS = ['GET_NODE_SETTINGS_METADATA', 'UPDATE_NODE_SETTINGS', 'RESTART_NODE'];
-
-type AppPage = 'overview' | 'settings';
 
 type PeerColumnDefinition = {
   column: PeerSortColumn;
@@ -826,7 +826,7 @@ export function App() {
   const [dataPeerDiagnostics, setDataPeerDiagnostics] = useState<KnownPeerDiagnostics | null>(null);
   const [chainPeerSortRules, setChainPeerSortRules] = useState<PeerSortRule[]>([]);
   const [dataPeerSortRules, setDataPeerSortRules] = useState<PeerSortRule[]>([]);
-  const [page, setPage] = useState<AppPage>('overview');
+  const [page, setPage] = useState<AppPage>(() => readNodeRoute(window.location.href).page);
   const [isPublicNode, setIsPublicNode] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSavingSettings, setIsSavingSettings] = useState(false);
@@ -864,6 +864,11 @@ export function App() {
     () => sortPeerRows(dataPeerRows, dataPeerSortRules),
     [dataPeerRows, dataPeerSortRules],
   );
+
+  function navigateToPage(next: AppPage) {
+    window.history.pushState({}, '', getNodeRouteUrl(window.location.href, { page: next }));
+    setPage(next);
+  }
 
   function sortChainPeers(column: PeerSortColumn) {
     setChainPeerSortRules((currentRules) => getNextPeerSortRules(currentRules, column));
@@ -1003,6 +1008,22 @@ export function App() {
     refresh();
   }, []);
 
+  useEffect(() => {
+    const canonicalUrl = getNodeRouteUrl(window.location.href, readNodeRoute(window.location.href));
+
+    if (canonicalUrl.href !== window.location.href) {
+      window.history.replaceState({}, '', canonicalUrl);
+    }
+
+    const onPopState = () => {
+      setPage(readNodeRoute(window.location.href).page);
+    };
+
+    window.addEventListener('popstate', onPopState);
+
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
   return (
     <main className="app-shell">
       <section className="workspace">
@@ -1049,7 +1070,7 @@ export function App() {
                 className="tab-button"
                 role="tab"
                 aria-selected={page === 'overview'}
-                onClick={() => setPage('overview')}
+                onClick={() => navigateToPage('overview')}
               >
                 {t('label.nodeStatus')}
               </button>
@@ -1058,7 +1079,7 @@ export function App() {
                 className="tab-button"
                 role="tab"
                 aria-selected={page === 'settings'}
-                onClick={() => setPage('settings')}
+                onClick={() => navigateToPage('settings')}
               >
                 {t('label.coreSettings')}
               </button>
