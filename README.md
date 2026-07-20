@@ -76,3 +76,5 @@ Editable settings:
   `SETTING_ORDER` in `src/settingsView.ts`. The editable section is a pulled-out
   view of the original full settings order, not an appended allowlist.
 - `minDataPeers` is editable when the active Core reports it as writable.
+- QDN relaying is unconditional whenever QDN is enabled in Qortium, so the
+  inherited `relayModeEnabled` switch is intentionally not editable.

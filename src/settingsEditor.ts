@@ -52,7 +52,6 @@ export const PHASE_1_EDITABLE_SETTING_KEYS = [
   'maxStorageCapacity',
   'publicDataEnabled',
   'privateDataEnabled',
-  'relayModeEnabled',
   'qdnPushOnPublishEnabled',
   'apiDocumentationEnabled',
   'chatMessageRetentionPeriod',
@@ -90,7 +89,6 @@ const BOOLEAN_DEFAULTS: Record<BooleanEditableSettingKey, boolean> = {
   publicDataEnabled: true,
   qdnEnabled: true,
   qdnPushOnPublishEnabled: true,
-  relayModeEnabled: true,
 };
 
 export function isPhase1EditableSetting(key: string): key is Phase1EditableSettingKey {
