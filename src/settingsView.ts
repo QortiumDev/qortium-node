@@ -71,7 +71,6 @@ const SETTING_ORDER: Record<string, SettingOrder> = {
   publicDataEnabled: { group: 2, priority: 20 },
   privateDataEnabled: { group: 2, priority: 21 },
   directDataRetrievalEnabled: { group: 2, priority: 30 },
-  relayModeEnabled: { group: 2, priority: 31 },
   gatewayEnabled: { group: 2, priority: 40 },
   gatewayLoopbackEnabled: { group: 2, priority: 41 },
   gatewayLoggingEnabled: { group: 2, priority: 42 },

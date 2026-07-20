@@ -9,6 +9,7 @@ import {
   getTransportSelectionValue,
   normalizeEditableSettingValue,
   patchHasRestartRequiredSettings,
+  PHASE_1_EDITABLE_SETTING_KEYS,
   parseGigabytesToBytes,
   parseHoursToMilliseconds,
 } from './settingsEditor';
@@ -130,6 +131,8 @@ describe('settings editor helpers', () => {
     expect(canEditSetting('storagePolicy', metadata, true, true)).toBe(false);
     expect(canEditSetting('qdnEnabled', metadata, true, false)).toBe(false);
     expect(canEditSetting('apiLoggingEnabled', metadata, true, false)).toBe(false);
+    expect(canEditSetting('relayModeEnabled', metadata, true, false)).toBe(false);
+    expect(PHASE_1_EDITABLE_SETTING_KEYS).not.toContain('relayModeEnabled');
   });
 
   it('detects restart-required settings in a patch', () => {
