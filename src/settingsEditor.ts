@@ -9,11 +9,14 @@ export const STORAGE_POLICY_OPTIONS = [
 ] as const;
 
 export const TRANSPORT_OPTIONS = ['IP', 'I2P'] as const;
+// Capability set only: Core treats transport order as a soft preference with
+// reserved dial slots for the other transport (core PR #191), so the old
+// "IP + I2P" vs "I2P + IP" ordering choice no longer changes behaviour enough
+// to be worth the confusion.
 export const TRANSPORT_SELECTION_OPTIONS = [
-  { label: 'IP', transports: ['IP'] },
+  { label: 'IP only', transports: ['IP'] },
   { label: 'IP + I2P', transports: ['IP', 'I2P'] },
-  { label: 'I2P + IP', transports: ['I2P', 'IP'] },
-  { label: 'I2P', transports: ['I2P'] },
+  { label: 'I2P only', transports: ['I2P'] },
 ] as const;
 export const AUTO_UPDATE_MODE_OPTIONS = ['OFF', 'CHECK_ONLY', 'NOTIFY', 'INSTALL'] as const;
 export const STORAGE_CAPACITY_GIGABYTE_BYTES = 1_000_000_000;
@@ -47,6 +50,7 @@ export const PHASE_1_EDITABLE_SETTING_KEYS = [
   'minDataPeers',
   'minPeerVersion',
   'allowConnectionsWithOlderPeerVersions',
+  'uPnPEnabled',
   'qdnEnabled',
   'storagePolicy',
   'maxStorageCapacity',
@@ -89,6 +93,7 @@ const BOOLEAN_DEFAULTS: Record<BooleanEditableSettingKey, boolean> = {
   publicDataEnabled: true,
   qdnEnabled: true,
   qdnPushOnPublishEnabled: true,
+  uPnPEnabled: true,
 };
 
 export function isPhase1EditableSetting(key: string): key is Phase1EditableSettingKey {
@@ -180,8 +185,12 @@ export function patchHasRestartRequiredSettings(patch: SettingsPatch, metadata: 
 }
 
 export function getTransportSelectionValue(value: unknown) {
+  // Order-insensitive: ['I2P', 'IP'] (the legacy I2P-preferred ordering) still
+  // selects the combined option instead of falling back.
   const transports = normalizeTransportList(value);
-  const serializedTransports = transports.join('+');
+  const serializedTransports = [...TRANSPORT_OPTIONS]
+    .filter((transport) => transports.includes(transport))
+    .join('+');
 
   return TRANSPORT_SELECTION_OPTIONS.some((option) => option.transports.join('+') === serializedTransports)
     ? serializedTransports
