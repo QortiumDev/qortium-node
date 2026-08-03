@@ -63,6 +63,7 @@ describe('settings view helpers', () => {
         publicDataEnabled: true,
         qdnEnabled: true,
         storagePolicy: 'FOLLOWED_OR_VIEWED',
+        uPnPEnabled: true,
         zUnknownSetting: true,
       },
     );
@@ -81,6 +82,7 @@ describe('settings view helpers', () => {
         'minDataPeers',
         'minPeerVersion',
         'allowConnectionsWithOlderPeerVersions',
+        'uPnPEnabled',
         'qdnEnabled',
         'storagePolicy',
         'maxStorageCapacity',

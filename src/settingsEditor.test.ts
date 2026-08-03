@@ -27,6 +27,7 @@ describe('settings editor helpers', () => {
       minPeerVersion: { restartRequired: true, type: 'PEER_VERSION' },
       maxStorageCapacity: { restartRequired: false, type: 'LONG' },
       storagePolicy: { restartRequired: false, type: 'STORAGE_POLICY' },
+      uPnPEnabled: { restartRequired: true, type: 'BOOLEAN' },
     },
   };
 
@@ -40,6 +41,8 @@ describe('settings editor helpers', () => {
     expect(normalizeEditableSettingValue('autoUpdateMode', 'NOTIFY')).toBe('NOTIFY');
     expect(normalizeEditableSettingValue('autoUpdateMode', 'BAD')).toBe('OFF');
     expect(normalizeEditableSettingValue('autoRestartEnabled', undefined)).toBe(false);
+    expect(normalizeEditableSettingValue('uPnPEnabled', undefined)).toBe(true);
+    expect(normalizeEditableSettingValue('uPnPEnabled', false)).toBe(false);
     expect(normalizeEditableSettingValue('listenPort', '25000')).toBe(25000);
     expect(normalizeEditableSettingValue('listenPort', '65536')).toBe(null);
     expect(normalizeEditableSettingValue('minOutboundPeers', '0')).toBe(0);
@@ -53,12 +56,16 @@ describe('settings editor helpers', () => {
     expect(normalizeEditableSettingValue('maxStorageCapacity', '123.5')).toBe(null);
   });
 
-  it('maps transport dropdown selections to ordered Core transport arrays', () => {
+  it('maps transport capability selections regardless of Core array order', () => {
     expect(getTransportSelectionValue(['IP'])).toBe('IP');
     expect(getTransportSelectionValue(['IP', 'I2P'])).toBe('IP+I2P');
-    expect(getTransportSelectionValue(['I2P', 'IP'])).toBe('I2P+IP');
+    // Legacy I2P-preferred ordering still selects the combined option
+    expect(getTransportSelectionValue(['I2P', 'IP'])).toBe('IP+I2P');
     expect(getTransportSelectionValue(['I2P'])).toBe('I2P');
-    expect(getTransportSelectionTransports('I2P+IP')).toEqual(['I2P', 'IP']);
+    expect(getTransportSelectionTransports('IP+I2P')).toEqual(['IP', 'I2P']);
+    expect(getTransportSelectionTransports('I2P')).toEqual(['I2P']);
+    // Retired ordering variant falls back to the combined option
+    expect(getTransportSelectionTransports('I2P+IP')).toEqual(['IP', 'I2P']);
   });
 
   it('formats and parses user-facing storage and chat retention units', () => {
@@ -127,6 +134,9 @@ describe('settings editor helpers', () => {
     expect(canEditSetting('minDataPeers', metadata, true, false)).toBe(true);
     expect(canEditSetting('minPeerVersion', metadata, true, false)).toBe(true);
     expect(canEditSetting('maxStorageCapacity', metadata, true, false)).toBe(true);
+    expect(canEditSetting('uPnPEnabled', metadata, true, false)).toBe(true);
+    // Older Cores without uPnPEnabled in writable metadata stay read-only
+    expect(canEditSetting('uPnPEnabled', { writable: {} }, true, false)).toBe(false);
     expect(canEditSetting('storagePolicy', metadata, false, false)).toBe(false);
     expect(canEditSetting('storagePolicy', metadata, true, true)).toBe(false);
     expect(canEditSetting('qdnEnabled', metadata, true, false)).toBe(false);
@@ -138,5 +148,6 @@ describe('settings editor helpers', () => {
   it('detects restart-required settings in a patch', () => {
     expect(patchHasRestartRequiredSettings({ storagePolicy: 'NONE' }, metadata)).toBe(false);
     expect(patchHasRestartRequiredSettings({ allowedTransports: ['IP'] }, metadata)).toBe(true);
+    expect(patchHasRestartRequiredSettings({ uPnPEnabled: false }, metadata)).toBe(true);
   });
 });
