@@ -30,6 +30,7 @@ describe('display settings', () => {
     expect(normalizeTextSize('extra-large')).toBe('extra-large');
     expect(normalizeTheme('dark')).toBe('dark');
     expect(normalizeUiStyle(' MODERN ')).toBe('modern');
+    expect(normalizeUiStyle('fun')).toBe('fun');
     expect(normalizeAccent('neon')).toBeNull();
     expect(normalizeTextSize('extra-huge')).toBeNull();
     expect(normalizeTheme('sepia')).toBeNull();

@@ -50,3 +50,20 @@ describe('Node routes', () => {
     }
   });
 });
+
+
+describe('Developers workspace', () => {
+  it.each(['developers', 'developer', 'reference'])('recognizes %s ahead of the settings page', view => {
+    expect(readNodeRoute(`https://example.test/?page=settings&view=${view}`)).toEqual({ page: 'developers' });
+  });
+  it('canonicalizes without discarding the retained page, section or host history query', () => {
+    const url = getNodeRouteUrl('https://example.test/render/APP/Node/Node?page=settings&view=reference&section=settings&future=a&future=b#retained', { page: 'developers' });
+    expect(url.searchParams.get('page')).toBe('settings');
+    expect(url.searchParams.get('view')).toBe('developers');
+    expect(url.searchParams.get('section')).toBe('settings');
+    expect(url.searchParams.getAll('future')).toEqual(['a', 'b']); expect(url.hash).toBe('#retained');
+    const back = getNodeRouteUrl(url, { page: 'settings' });
+    expect(back.searchParams.has('view')).toBe(false); expect(back.searchParams.has('section')).toBe(false);
+    expect(back.searchParams.get('page')).toBe('settings');
+  });
+});

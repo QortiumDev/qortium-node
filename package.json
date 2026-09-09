@@ -1,6 +1,6 @@
 {
   "name": "qortium-node",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "private": true,
   "license": "0BSD",
   "description": "A QDN app for inspecting a Qortium node.",
@@ -23,6 +23,7 @@
     "@types/node": "^26.4.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
+    "jsdom": "^29.1.1",
     "vitest": "^4.1.11"
   }
 }

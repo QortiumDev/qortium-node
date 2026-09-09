@@ -12,6 +12,8 @@ Default QDN identity:
 
 Current scope:
 
+- Public English **Developers** reference at `?view=developers`, available offline and without write authority.
+
 - Read node status through `GET_NODE_STATUS`.
 - Read Core metadata and peer lists through read-only `FETCH_NODE_API` calls.
 - Show chain vs QDN/data peers, IP vs I2P, inbound vs outbound breakdowns,
@@ -27,6 +29,21 @@ Current scope:
 - Route visible UI copy through `src/i18n.ts` with English fallback strings.
 - Detect language from Home/query display settings first, then Core `localeLang`
   from `/admin/settings`, then English.
+
+Developers and compatibility:
+
+- Node remains on Qortium QDN only, with no Qortal app integration.
+- `?view=developer` and `?view=reference` normalize to `?view=developers`,
+  preserving an existing `?page=settings`, host/query parameters and fragment.
+  Section links use `section`; Home Back/Forward restores the workspace.
+- Switching tabs preserves the unsaved settings draft. A successful save or
+  explicit Refresh resets it, as before. The reference documents this boundary.
+- The body stays English/LTR and follows Classic/Modern/Fun, theme, accent and
+  text size. UI messages still use the existing English-fallback i18n mechanism.
+- Copy controls announce success or manual-copy fallback and never run examples.
+- The reference shares the app's action list, editable keys, unit constants and
+  enum options. Home/Core remain authoritative for route trust, approval,
+  writable metadata, save/apply semantics and restart effects.
 
 Planned later scope:
 
@@ -44,7 +61,7 @@ npm run dev
 Versioning:
 
 - Node follows the Qortium app versioning standard (QAVS): the current app
-  version is 1.4.2, where the `1.4` prefix declares the minimum Qortium
+  version is 1.4.5, where the `1.4` prefix declares the minimum Qortium
   platform level the app is built against and the last number is the app's
   own release counter.
 - The build emits a `qortium-app.json` manifest (see `vite.config.ts`) that

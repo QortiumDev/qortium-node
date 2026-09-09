@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Reference } from './Reference';
+import { SETTINGS_BRIDGE_ACTIONS } from './nodeContract';
 import { APP_VERSION } from './appVersion';
 import nodeIconUrl from './assets/brand/qortium-node-protoicon-black-transparent.png';
 import {
@@ -64,7 +66,6 @@ import type {
   PeerTransport,
 } from './types';
 
-const SETTINGS_BRIDGE_ACTIONS = ['GET_NODE_SETTINGS_METADATA', 'UPDATE_NODE_SETTINGS', 'RESTART_NODE'];
 
 type PeerColumnDefinition = {
   column: PeerSortColumn;
@@ -866,7 +867,8 @@ export function App() {
   );
 
   function navigateToPage(next: AppPage) {
-    window.history.pushState({}, '', getNodeRouteUrl(window.location.href, { page: next }));
+    const url = getNodeRouteUrl(window.location.href, { page: next });
+    if (url.href !== window.location.href) window.history.pushState(window.history.state, '', url);
     setPage(next);
   }
 
@@ -1012,7 +1014,7 @@ export function App() {
     const canonicalUrl = getNodeRouteUrl(window.location.href, readNodeRoute(window.location.href));
 
     if (canonicalUrl.href !== window.location.href) {
-      window.history.replaceState({}, '', canonicalUrl);
+      window.history.replaceState(window.history.state, '', canonicalUrl);
     }
 
     const onPopState = () => {
@@ -1083,8 +1085,12 @@ export function App() {
               >
                 {t('label.coreSettings')}
               </button>
+              <button type="button" className="tab-button" role="tab"
+                aria-selected={page === 'developers'} onClick={() => navigateToPage('developers')}>
+                {t('label.developers')}
+              </button>
             </div>
-            <button
+            {page !== 'developers' && <button
               type="button"
               className={`refresh-button${isLoading ? ' is-loading' : ''}`}
               onClick={refresh}
@@ -1093,15 +1099,15 @@ export function App() {
             >
               {isLoading ? <span className="button-spinner" aria-hidden="true" /> : null}
               <span>{t('label.refresh')}</span>
-            </button>
+            </button>}
           </div>
         </header>
 
-        {error ? <div className="notice">{error}</div> : null}
-        {settingsMessage ? <div className="notice muted">{settingsMessage}</div> : null}
-        {isLoading && !hasLoadedData ? <div className="notice muted">{t('message.loadingNodeData')}</div> : null}
+        {page !== 'developers' && error ? <div className="notice">{error}</div> : null}
+        {page !== 'developers' && settingsMessage ? <div className="notice muted">{settingsMessage}</div> : null}
+        {page !== 'developers' && isLoading && !hasLoadedData ? <div className="notice muted">{t('message.loadingNodeData')}</div> : null}
 
-        {page === 'overview' ? (
+        {page === 'developers' ? <Reference /> : page === 'overview' ? (
           <>
             <section className="status-grid">
               <Metric
