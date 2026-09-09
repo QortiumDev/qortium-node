@@ -1,4 +1,4 @@
-export type AppPage = 'overview' | 'settings';
+export type AppPage = 'overview' | 'settings' | 'developers';
 
 export type BridgeState = {
   actions: string[];
@@ -187,5 +187,5 @@ export type DisplaySettings = {
   languageSource: 'core' | 'default' | 'home' | 'query';
   textSize: 'extra-large' | 'extra-small' | 'huge' | 'large' | 'medium' | 'small';
   theme: 'dark' | 'light';
-  uiStyle: 'classic' | 'modern';
+  uiStyle: 'classic' | 'modern' | 'fun';
 };

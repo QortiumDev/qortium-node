@@ -979,3 +979,27 @@ td {
     transform: rotate(360deg);
   }
 }
+
+/* Fun follows Home's playful shape language while retaining the app's bundled font. */
+:root[data-ui='fun'] { --qn-radius: 20px; --qn-radius-sm: 12px; --qn-shadow: 0 5px 0 var(--qn-border); }
+:root[data-ui='fun'] .tab-button { border-radius: var(--qn-radius-pill); }
+.tabs { flex-wrap: wrap; }
+.reference { min-width: 0; border: 1px solid var(--qn-border); border-radius: var(--qn-radius); background: var(--qn-surface); }
+.reference-header { padding: 18px; }
+.reference-header h2 { margin-top: 0; }
+.reference-toc { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.reference-toc a { color: var(--qn-accent); overflow-wrap: anywhere; }
+.reference-scroll { max-height: 65dvh; min-height: 220px; overflow: auto; overscroll-behavior: contain; padding: 18px; border-top: 1px solid var(--qn-border); }
+.reference section { scroll-margin-top: 12px; overflow-wrap: anywhere; padding-bottom: 18px; }
+.reference section:focus-visible { outline: 2px solid var(--qn-accent); outline-offset: -2px; }
+.reference h3 { font-size: var(--qn-text-heading); margin-top: 0; }
+.reference dd { margin: 4px 0 16px; }
+.reference dt { font-weight: 600; }
+.reference-keys { padding-inline-start: 24px; }
+.reference pre { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; padding: 12px; background: var(--qn-surface-alt); border: 1px solid var(--qn-border); border-radius: var(--qn-radius-sm); }
+.reference code { font-family: 'Illinois Mono', monospace; overflow-wrap: anywhere; }
+.reference-example { margin-bottom: 22px; }
+.reference-example h4 { margin-bottom: 8px; }
+.reference-example button { margin-bottom: 8px; }
+.copy-status { font-size: var(--qn-text-small); color: var(--qn-text-secondary); min-height: 1.5em; margin-bottom: 0; }
+@media(max-width:600px) { .reference-header, .reference-scroll { padding: 14px; } }

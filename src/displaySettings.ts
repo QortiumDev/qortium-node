@@ -3,7 +3,7 @@ import { isRtlLanguage, normalizeLanguage } from './i18n';
 
 const TEXT_SIZE_VALUES = ['extra-small', 'small', 'medium', 'large', 'extra-large', 'huge'] as const;
 const ACCENT_VALUES = ['green', 'blue', 'orange', 'purple', 'red', 'teal', 'cyan', 'pink', 'yellow'] as const;
-const UI_STYLE_VALUES = ['classic', 'modern'] as const;
+const UI_STYLE_VALUES = ['classic', 'modern', 'fun'] as const;
 
 const DEFAULT_DISPLAY_SETTINGS: DisplaySettings = {
   accent: 'green',

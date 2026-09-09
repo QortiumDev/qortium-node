@@ -2,6 +2,7 @@ export type MessageValues = Record<string, string | number>;
 
 export const EN_STRINGS = {
   'app.title': 'Node',
+  'label.developers': 'Developers',
   'common.blocked': 'blocked',
   'common.down': 'down',
   'common.editable': 'editable',
